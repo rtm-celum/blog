@@ -29,7 +29,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets/energy-report.json"
             ],
             "styles": [
               "src/styles.scss"
