@@ -1,0 +1,1 @@
+How can I build and deploy the Angular app for production, ensuring the best performance? Create a azure pipeline file that builds the app. Also guide me how I can create azure static webapps for that.

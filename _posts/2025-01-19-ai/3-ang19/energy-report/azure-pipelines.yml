@@ -1,0 +1,30 @@
+trigger:
+  - main  # Runs the pipeline on every push to 'main' branch
+
+pool:
+  vmImage: 'ubuntu-latest' # Use latest Ubuntu VM
+
+steps:
+  - task: UseNode@2
+    inputs:
+      version: '20.x' # Use latest stable Node.js
+    displayName: 'Use Node.js 20.x'
+
+  - script: |
+      npm install -g @angular/cli
+    displayName: 'Install Angular CLI'
+
+  - script: |
+      npm install
+    displayName: 'Install Dependencies'
+
+  - script: |
+      ng build --configuration=production
+    displayName: 'Build Angular App'
+
+  - task: AzureStaticWebApp@0
+    inputs:
+      app_location: '/' # Root folder of Angular app
+      output_location: 'dist/your-app-name' # Change to match your Angular build output folder
+      azure_static_web_apps_api_token: $(deployment_token)
+    displayName: 'Deploy to Azure Static Web Apps'
