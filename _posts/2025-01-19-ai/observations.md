@@ -1,0 +1,3 @@
+During working on the blog chatgpt changed, from 
+... 
+to bold text, emojis, etc.

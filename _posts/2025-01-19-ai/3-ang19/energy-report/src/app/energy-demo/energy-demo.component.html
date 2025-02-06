@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>Energy Report Demo</h2>
+
+  <p *ngIf="entryCount !== null">
+    Total number of entries: <strong>{{ entryCount }}</strong>
+  </p>
+  <p *ngIf="entryCount === null">Loading...</p>
+  <p *ngIf="entryCount === 0">No entries found.</p>
+
+  <!-- Chart Section -->
+  <div class="chart-container">
+    <app-energy-chart></app-energy-chart>
+  </div>
+
+  <!-- Table Section -->
+  <div class="table-container">
+    <app-energy-table></app-energy-table>
+  </div>
+</div>

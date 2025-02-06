@@ -1,0 +1,18 @@
+<div class="chart-container">
+  <h2>Daily Energy Consumption</h2>
+  <ngx-charts-bar-vertical
+      [view]="view"
+      [results]="energyData"
+      [scheme]="'cool'"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="'Date'"
+      [yAxisLabel]="'Consumption (kWh)'"
+      [showGridLines]="showGridLines"
+      [showDataLabel]="showDataLabels"
+      [xAxisTickFormatting]="xAxisTickFormatting">
+  </ngx-charts-bar-vertical>
+</div>
