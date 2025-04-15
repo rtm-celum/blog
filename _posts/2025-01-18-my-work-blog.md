@@ -1,8 +1,8 @@
 ---
-title: "My blog about work projects"
-date: 2025-01-18
+layout: post
+title: "My First Celum Work Post"
+date: 2025-04-15
+categories: [work]
 ---
 
-Let`s write about interesting stuff that happens at Celum. 
-
-I am
+Welcome to my first blog post! Here I will share some insights about my projects at Celum. Stay tuned for more updates.
