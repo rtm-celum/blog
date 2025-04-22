@@ -1,6 +1,4 @@
 title: My Celum Work Blog
 author: Rudolf Traunmüller
 description: Blog about my work projects at Celum
-remote_theme: "jeffreytse/jekyll-theme-yat"
-plugins:
-  - jekyll-remote-theme
+theme: "jekyll-theme-yat"
