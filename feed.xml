@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-04-22T12:55:32+00:00</updated><id>/feed.xml</id><title type="html">My Celum Work Blog</title><subtitle>Blog about my work projects at Celum</subtitle><author><name>Rudolf Traunmüller</name></author><entry><title type="html">My First Celum Work Post</title><link href="/work/2025/04/15/my-work-blog.html" rel="alternate" type="text/html" title="My First Celum Work Post" /><published>2025-04-15T00:00:00+00:00</published><updated>2025-04-15T00:00:00+00:00</updated><id>/work/2025/04/15/my-work-blog</id><content type="html" xml:base="/work/2025/04/15/my-work-blog.html"><![CDATA[<p>Welcome to my first blog post! Here I will share some insights about my projects at Celum. Stay tuned for more updates.</p>]]></content><author><name>Rudolf Traunmüller</name></author><category term="work" /><summary type="html"><![CDATA[Welcome to my first blog post! Here I will share some insights about my projects at Celum. Stay tuned for more updates.]]></summary></entry><entry><title type="html">Typescript - Passing Params as Options</title><link href="/typescript/functions/beginner/2025/04/15/options-and-defaults.html" rel="alternate" type="text/html" title="Typescript - Passing Params as Options" /><published>2025-04-15T00:00:00+00:00</published><updated>2025-04-15T00:00:00+00:00</updated><id>/typescript/functions/beginner/2025/04/15/options-and-defaults</id><content type="html" xml:base="/typescript/functions/beginner/2025/04/15/options-and-defaults.html"><![CDATA[<h3 id="flexible-function-parameters-with-typescript">Flexible Function Parameters with TypeScript</h3>
+
+<p>When working with functions that require multiple parameters, some of which are optional or have default values, things can quickly get messy. A great way to
+keep things clean and flexible is by using an options object to consolidate parameters. This approach boosts readability and future-proofs your code.</p>
+
+<h3 id="scenario-generating-unique-random-identifiers">Scenario: Generating Unique Random Identifiers</h3>
+
+<p>Consider a scenario where you need a function to generate unique random identifiers (e.g., for Portal pages or widget IDs). The function needs to be
+configurable, allowing you to:</p>
+
+<ul>
+  <li>Avoid generating certain IDs (to prevent duplicates)</li>
+  <li>Set the length of the generated ID</li>
+  <li>Specify how many IDs to generate</li>
+</ul>
+
+<p>Here’s how we originally tackled the problem:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">function</span> <span class="nf">getUniqueId</span><span class="p">(</span><span class="nx">existingIds</span><span class="p">?:</span> <span class="nb">Set</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">length</span> <span class="o">=</span> <span class="mi">4</span><span class="p">):</span> <span class="kr">string</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">newString</span> <span class="o">=</span> <span class="nf">generateRandomCharacterString</span><span class="p">(</span><span class="nx">length</span><span class="p">);</span>
+  <span class="k">while </span><span class="p">(</span><span class="nx">existingIds</span><span class="p">?.</span><span class="nf">has</span><span class="p">(</span><span class="nx">newString</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nx">newString</span> <span class="o">=</span> <span class="nf">generateRandomCharacterString</span><span class="p">(</span><span class="nx">length</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">newString</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>While this works, passing parameters felt awkward. For example, if you wanted to specify a custom length for the ID, you’d also have to pass an empty set for
+the <code class="language-plaintext highlighter-rouge">existingIds</code> parameter. This made function calls unnecessarily complex.</p>
+
+<h3 id="introducing-the-uniquegenerationoptions-type">Introducing the <code class="language-plaintext highlighter-rouge">UniqueGenerationOptions</code> Type</h3>
+
+<p>To address this, we introduced an options object: <code class="language-plaintext highlighter-rouge">UniqueGenerationOptions</code>. This object consolidates all the configuration into one parameter, making the
+function easier to call and extending its flexibility.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">type</span> <span class="nx">UniqueGenerationOptions</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="cm">/** Specify ids which should be avoided to ensure uniqueness also with a short id length - defaults to empty set */</span>
+  <span class="nx">avoidIds</span><span class="p">?:</span> <span class="nb">Set</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span><span class="p">;</span>
+  <span class="cm">/** Specify the length of the generated id - defaults to 4 */</span>
+  <span class="nl">length</span><span class="p">?:</span> <span class="kr">number</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>This allows us to pass in a single options object instead of multiple parameters.</p>
+
+<h3 id="refined-implementation">Refined Implementation</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Generates a unique random character based ID.
+ *
+ * @param options - options for ID generation.
+ * @returns A unique random ID string.
+ */</span>
+<span class="k">export</span> <span class="kd">function</span> <span class="nf">getUniqueId</span><span class="p">(</span><span class="nx">options</span><span class="p">?:</span> <span class="nx">UniqueGenerationOptions</span><span class="p">):</span> <span class="kr">string</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">idLength</span> <span class="o">=</span> <span class="nx">options</span><span class="p">?.</span><span class="nx">length</span> <span class="o">??</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">idsToAvoid</span> <span class="o">=</span> <span class="nx">options</span><span class="p">?.</span><span class="nx">avoidIds</span> <span class="o">??</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">();</span>
+
+  <span class="kd">let</span> <span class="nx">newString</span> <span class="o">=</span> <span class="nf">generateRandomCharacterString</span><span class="p">(</span><span class="nx">idLength</span><span class="p">);</span>
+  <span class="k">while </span><span class="p">(</span><span class="nx">idsToAvoid</span><span class="p">.</span><span class="nf">has</span><span class="p">(</span><span class="nx">newString</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nx">newString</span> <span class="o">=</span> <span class="nf">generateRandomCharacterString</span><span class="p">(</span><span class="nx">idLength</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">newString</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now, calling the function feels much more intuitive. Here are some examples:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1. Default usage</span>
+<span class="kd">const</span> <span class="nx">id1</span> <span class="o">=</span> <span class="nf">getUniqueId</span><span class="p">();</span> <span class="c1">// e.g. "a1b2"</span>
+<span class="c1">// 2. Custom length</span>
+<span class="kd">const</span> <span class="nx">id2</span> <span class="o">=</span> <span class="nf">getUniqueId</span><span class="p">({</span> <span class="na">length</span><span class="p">:</span> <span class="mi">8</span> <span class="p">});</span> <span class="c1">// e.g. "a1b2c3d4"</span>
+<span class="c1">// 3. Avoid certain IDs</span>
+<span class="kd">const</span> <span class="nx">id3</span> <span class="o">=</span> <span class="nf">getUniqueId</span><span class="p">({</span> <span class="na">avoidIds</span><span class="p">:</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">([</span><span class="dl">'</span><span class="s1">a1b2</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">c3d4</span><span class="dl">'</span><span class="p">])</span> <span class="p">});</span> <span class="c1">// e.g. "e5f6"</span>
+<span class="c1">// 4. Custom length and avoid certain IDs</span>
+<span class="kd">const</span> <span class="nx">id4</span> <span class="o">=</span> <span class="nf">getUniqueId</span><span class="p">({</span> <span class="na">length</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="na">avoidIds</span><span class="p">:</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">([</span><span class="dl">'</span><span class="s1">a1b2c3d4</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">e5f6g7h8</span><span class="dl">'</span><span class="p">])</span> <span class="p">});</span> <span class="c1">// e.g. "i9j0k1l2"</span>
+</code></pre></div></div>
+
+<h3 id="summary">Summary</h3>
+
+<p>Using an options object like this is a simple but powerful design pattern. It makes your functions more readable and flexible, and it allows you to add new
+configuration options in the future without breaking existing functionality. This pattern is used across our codebase, especially in scenarios where functions
+have multiple optional parameters. It’s scalable, and the calling code remains clean and intuitive.</p>]]></content><author><name>Rudolf Traunmüller</name></author><category term="typescript" /><category term="functions" /><category term="beginner" /><summary type="html"><![CDATA[Flexible Function Parameters with TypeScript]]></summary></entry></feed>
