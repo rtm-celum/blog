@@ -5,20 +5,21 @@ date: 2025-04-15
 categories: [ typescript,functions,beginner ]
 ---
 
-### Pattern 'Flexibility for Function Params'
+### Flexible Function Parameters with TypeScript
 
-This design pattern show how can model function params to increase flexibility and readability. It is particularly useful when you have a function with multiple
-parameters, some of which are optional or have default values.
+When working with functions that require multiple parameters, some of which are optional or have default values, things can quickly get messy. A great way to
+keep things clean and flexible is by using an options object to consolidate parameters. This approach boosts readability and future-proofs your code.
 
-### Scenario 'Generating unique random identifiers'
+### Scenario: Generating Unique Random Identifiers
 
-We often need a function that generates unique random identifier (e.g. for portal pages, widget ids, etc.). The function should be configurable:
+Consider a scenario where you need a function to generate unique random identifiers (e.g., for Portal pages or widget IDs). The function needs to be
+configurable, allowing you to:
 
-- avoid certain IDs (e.g., to ensure no duplicates)
-- set the length of the generated ID
-- number of IDs to generate
+- Avoid generating certain IDs (to prevent duplicates)
+- Set the length of the generated ID
+- Specify how many IDs to generate
 
-We started with a simple function
+Here’s how we originally tackled the problem:
 
 ```typescript
 export function getUniqueId(existingIds?: Set<string>, length = 4): string {
@@ -30,28 +31,26 @@ export function getUniqueId(existingIds?: Set<string>, length = 4): string {
 }
 ```
 
-and passed all params to it. But sometimes the usage felt awkward. For example if you wanted to generate a unique ID with a custom length, you had to pass an
-empty set for the existing IDs.
+While this works, passing parameters felt awkward. For example, if you wanted to specify a custom length for the ID, you’d also have to pass an empty set for
+the `existingIds` parameter. This made function calls unnecessarily complex.
 
-Therefore we introduced an `UniqueGenerationOptions` options object.
+### Introducing the `UniqueGenerationOptions` Type
 
-### The `UniqueGenerationOptions` Type
-
-Instead of defining individual parameters for each configurable aspect, we started to use an `options` object. This object consolidates all configuration into a
-single parameter, making it more scalable and readable.
+To address this, we introduced an options object: `UniqueGenerationOptions`. This object consolidates all the configuration into one parameter, making the
+function easier to call and extending its flexibility.
 
 ```typescript
 export type UniqueGenerationOptions = {
-  /** Specify ids which should be avoided to ensure uniqueness also with a short id length - defaults to empty set*/
+  /** Specify ids which should be avoided to ensure uniqueness also with a short id length - defaults to empty set */
   avoidIds?: Set<string>;
   /** Specify the length of the generated id - defaults to 4 */
   length?: number;
 };
 ```
 
-Let's take a look at the code that implements this approach.
+This allows us to pass in a single options object instead of multiple parameters.
 
-### Adapted implementation
+### Refined Implementation
 
 ```typescript
 /**
@@ -72,7 +71,7 @@ export function getUniqueId(options?: UniqueGenerationOptions): string {
 }
 ```
 
-You can now invoke the function in multiple ways, and none of them feels awkward anymore:
+Now, calling the function feels much more intuitive. Here are some examples:
 
 ```typescript
 // 1. Default usage
@@ -87,9 +86,6 @@ const id4 = getUniqueId({ length: 8, avoidIds: new Set(['a1b2c3d4', 'e5f6g7h8'])
 
 ### Summary
 
-This pattern is a great way to increase the flexibility and readability of your functions. By using an options object, you can easily add new parameters in the
-future without breaking existing code or making its usage awkward.
-
-### Usage in our Product 
-
-This pattern is used throughout our whole code base, but especially  
+Using an options object like this is a simple but powerful design pattern. It makes your functions more readable and flexible, and it allows you to add new
+configuration options in the future without breaking existing functionality. This pattern is used across our codebase, especially in scenarios where functions
+have multiple optional parameters. It’s scalable, and the calling code remains clean and intuitive.
