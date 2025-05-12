@@ -2,7 +2,7 @@
 layout: post
 title: "Typescript - Passing Params as Options"
 date: 2025-04-15
-categories: [ typescript,functions,beginner ]
+categories: [ typescript, functions, beginner ]
 ---
 
 ### Flexible Function Parameters with TypeScript
