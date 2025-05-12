@@ -19,5 +19,3 @@ The format is rather
 Stay tuned for more updates! I'm looking forward to connecting with you all and sharing more soon.
 
 Thanks for reading! 🫶
-
-![Alt text](/assets/2025-01-18-my-work-blog/green-heart.png)
