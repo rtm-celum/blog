@@ -8,8 +8,6 @@ subheading: ""
 banner: "assets/title-header.png"
 ---
 
-# Your Awesome Heading 123 123
-## Your Awesome Subheading 123 123
+# The World of Digital AwesoMeness (DAMs)
 
-Welcome to my awesome Jekyll site.
-Welcome to my blog! Here I will share some insights and updates about my work at Celum.
+I’m excited to start this journey and share some behind-the-scenes insights about my projects at Celum.
