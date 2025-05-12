@@ -1,8 +1,4 @@
-/.idea/.gitignore
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/rtm-celum-blog.iml
-/.idea/vcs.xml
+.idea
 
 _site
 .jekyll-cache
