@@ -70,8 +70,16 @@ superCharger.charge(boughtCar, 100);
 
 ## What went wrong?
 
-The issue lies in the order of property assignment during object spreading. The `engine: 'electric'` assignment was silently overwritten by `...preconfiguredCar2`, which sets the engine back to `'combustion'`.TypeScript simply ignores that assignment with `strict: false`.
+The issue lies in the order of property assignment during object spreading. The `engine: 'electric'` assignment was silently overwritten by
+`...preconfiguredCar2`, which sets the engine back to `'combustion'`.TypeScript simply ignores that assignment with `strict: false`.
 
 As a result, there was no compiler warning, and we ended up with a car that didn’t match our expectations.
 
-Interestingly, if the preconfigured car hadn’t included an `engine` property at all — or if we had assigned `engine: 'electric'` after the spread, the compiler would have caught the type error. This shows that developers can’t always rely on the intuitive mental model that explicitly typed objects will trigger type errors reliably. With `strict: false`, the reality is more nuanced: whether a type error surfaces may depend on subtle implementation details like property order or presence.
+Interestingly, if the preconfigured car hadn’t included an `engine` property at all — or if we had assigned `engine: 'electric'` after the spread, the compiler
+would have caught the type error. This shows that developers can’t always rely on the intuitive mental model that explicitly typed objects will trigger type
+errors reliably. With `strict: false`, the reality is more nuanced: whether a type error surfaces may depend on subtle implementation details like property
+order or presence.
+
+## Appendix
+
+Sources are on GitHub: https://github.com/rtm-celum/blog-source/tree/main/2025-03-01-strict-false-gotcha 

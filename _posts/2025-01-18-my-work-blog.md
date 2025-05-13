@@ -14,8 +14,6 @@ As I dive into the world of programming cloud services around digital asset mana
 In this space, I'll provide you with a closer look at what I'm working on, how I approach solving problems, and some of the tools and techniques that make it
 all happen. Expect to see updates on new projects, lessons learned, and thoughts on the ever-evolving landscape of technology.
 
-The format is rather 
-
 Stay tuned for more updates! I'm looking forward to connecting with you all and sharing more soon.
 
 Thanks for reading! 🫶

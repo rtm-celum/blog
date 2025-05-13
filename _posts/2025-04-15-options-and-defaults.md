@@ -31,12 +31,12 @@ export function getUniqueId(existingIds?: Set<string>, length = 4): string {
 }
 ```
 
-While this works, passing parameters felt awkward. For example, if you wanted to specify a custom length for the ID, you’d also have to pass an empty set for
+While this works, passing parameters felt awkward. For example, if you wanted to specify a custom length for the ID, you’d also have to pass an empty set or at least `undefined` for
 the `existingIds` parameter. This made function calls unnecessarily complex.
 
 ### Introducing the `UniqueGenerationOptions` Type
 
-To address this, we introduced an options object: `UniqueGenerationOptions`. This object consolidates all the configuration into one parameter, making the
+To address this, we introduced an options object: `UniqueGenerationOptions`. This object consolidates all the configuration options into one parameter, making the
 function easier to call and extending its flexibility.
 
 ```typescript
@@ -56,8 +56,8 @@ This allows us to pass in a single options object instead of multiple parameters
 /**
  * Generates a unique random character based ID.
  *
- * @param options - options for ID generation.
- * @returns A unique random ID string.
+ * @param options options for ID generation.
+ * @returns a unique random ID string.
  */
 export function getUniqueId(options?: UniqueGenerationOptions): string {
   const idLength = options?.length ?? 4;
@@ -67,6 +67,7 @@ export function getUniqueId(options?: UniqueGenerationOptions): string {
   while (idsToAvoid.has(newString)) {
     newString = generateRandomCharacterString(idLength);
   }
+  
   return newString;
 }
 ```
@@ -89,3 +90,7 @@ const id4 = getUniqueId({ length: 8, avoidIds: new Set(['a1b2c3d4', 'e5f6g7h8'])
 Using an options object like this is a simple but powerful design pattern. It makes your functions more readable and flexible, and it allows you to add new
 configuration options in the future without breaking existing functionality. This pattern is used across our codebase, especially in scenarios where functions
 have multiple optional parameters. It’s scalable, and the calling code remains clean and intuitive.
+
+## Appendix
+
+Sources are on GitHub: https://github.com/rtm-celum/blog-source/tree/main/2025-04-15-options-and-defaults
